@@ -1,19 +1,12 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from itertools import product
 from random import randint
-from typing import Dict, List, Tuple
+from typing import Dict, List, NamedTuple, Tuple
 
-
-@dataclass
-class Cell:
-    x: int
-    y: int
-    alive: bool
-
-    def __hash__(self) -> int:
-        return hash((self.x, self.y, self.alive))
+Cell = NamedTuple("Cell", [("x", int),
+                           ("y", int),
+                           ("alive", bool)])
 
 
 class Screen:

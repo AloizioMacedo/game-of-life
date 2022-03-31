@@ -45,6 +45,6 @@ class Game:
         for cell in self.candidates_to_be_born:
             neighbours = self.screen.get_neighbours(cell)
             if len([cell2 for cell2 in neighbours if cell2.alive]) == 3:
-                cell.alive = True
-                to_be_born.append(cell)
+                spawned_cell = Cell(cell.x, cell.y, True)
+                to_be_born.append(spawned_cell)
         return to_be_born
