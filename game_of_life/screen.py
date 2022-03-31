@@ -22,8 +22,8 @@ class Screen:
                  alive_cells: List[Cell] = []) -> None:
         if not alive_cells:
             self.alive_cells = list(set([
-                Cell(randint(-4, 4), randint(-4, 4), alive=True)
-                for i in range(0, 22)
+                Cell(randint(-7, 7), randint(-7, 7), alive=True)
+                for i in range(0, 80)
             ]))
         else:
             self.alive_cells = alive_cells
