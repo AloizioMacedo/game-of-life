@@ -13,7 +13,7 @@ def main():
     screen = Screen()
     game = Game(screen)
     fig, ax = plt.subplots()
-    ax.imshow(screen.get_screen(WIDTH, HEIGHT), extent=(
+    imshow = ax.imshow(screen.get_screen(WIDTH, HEIGHT), extent=(
         (- (WIDTH-1)/2, (WIDTH-1)/2,
          - (HEIGHT-1)/2, (HEIGHT-1)/2)
         ))
@@ -23,12 +23,10 @@ def main():
     while True:
         game.update_candidates()
         game.game_step()
-        ax.imshow(screen.get_screen(WIDTH, HEIGHT), extent=(
-            (- (WIDTH-1)/2, (WIDTH-1)/2,
-             - (HEIGHT-1)/2, (HEIGHT-1)/2)
-            ))
-        fig.canvas.flush_events()
-        time.sleep(1)
+        imshow.set_data(screen.get_screen(WIDTH, HEIGHT))
+        fig.canvas.draw()
+        plt.pause(0.01)  # type: ignore
+        time.sleep(0.1)
 
 
 if __name__ == "__main__":

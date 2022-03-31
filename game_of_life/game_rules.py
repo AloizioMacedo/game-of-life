@@ -25,7 +25,8 @@ class Game:
             self.screen.remove_cell(cell)
         for cell in who_is_born:
             self.screen.add_cell(cell)
-        self.candidates_to_be_born, self.candidates_to_die = set(), set()
+        self.candidates_to_be_born.clear()
+        self.candidates_to_die.clear()
         return None
 
     def determine_who_dies(self) -> List[Cell]:
