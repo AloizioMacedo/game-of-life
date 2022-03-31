@@ -34,18 +34,14 @@ class Screen:
 
     def get_neighbours(self, cell: Cell) -> List[Cell]:
         neighbour_cells: List[Cell] = []
-        alive_locations: List[Tuple[int, int]] = []
-        for other_cell in self.alive_cells:
-            if (other_cell != cell
-                    and cell.x - 1 <= other_cell.x <= cell.x + 1
-                    and cell.y - 1 <= other_cell.y <= cell.y + 1):
-                neighbour_cells.append(other_cell)
-                alive_locations.append((other_cell.x, other_cell.y))
         for (x, y) in product([-1, 0, 1], repeat=2):
-            if ((x, y) != (0, 0) and (cell.x + x,
-                                      cell.y + y) not in alive_locations):
-                neighbour_cells.append(Cell(cell.x + x,
-                                            cell.y + y, alive=False))
+            if (x, y) != (0, 0):
+                if (cell.x + x, cell.y + y) in self.alive_cells_hashmap:
+                    neighbour_cells.append(Cell(cell.x + x,
+                                                cell.y + y, alive=True))
+                else:
+                    neighbour_cells.append(Cell(cell.x + x,
+                                                cell.y + y, alive=False))
         return neighbour_cells
 
     def remove_cell(self, cell: Cell) -> None:
