@@ -7,6 +7,7 @@ class Game:
 
     def __init__(self, screen: Screen) -> None:
         self.screen = screen
+        self.on = True
         self.candidates_to_be_born: Set[Cell] = set()
         self.candidates_to_die: Set[Cell] = set()
 
