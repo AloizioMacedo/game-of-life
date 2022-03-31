@@ -73,7 +73,9 @@ class Screen:
                     (x, y),
                     None)
                 if cell is not None:
-                    initialized_screen[x][y] = 1
+                    initialized_screen[
+                        x + (lines-1)//2
+                        ][y + (columns-1)//2] = 1
         return initialized_screen
 
     def print_screen(self, lines: int, columns: int) -> None:
