@@ -8,6 +8,8 @@ from screen import Screen
 WIDTH = 31
 HEIGHT = 31
 
+PERIOD = 0.2
+
 
 def main():
     screen = Screen()
@@ -21,12 +23,18 @@ def main():
     plt.show()
 
     while True:
+        start_of_loop = time.time()
+
         game.update_candidates()
         game.game_step()
+
         imshow.set_data(screen.get_screen(WIDTH, HEIGHT))
         fig.canvas.draw()
         plt.pause(0.01)  # type: ignore
-        time.sleep(0.1)
+
+        end_of_loop = time.time()
+        if end_of_loop - start_of_loop <= PERIOD:
+            time.sleep(PERIOD - (end_of_loop - start_of_loop))
 
 
 if __name__ == "__main__":
