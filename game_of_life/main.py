@@ -22,8 +22,7 @@ def main():
 
     while True:
         game.update_candidates()
-        game.reproduce()
-        game.kill()
+        game.game_step()
         ax.imshow(screen.get_screen(WIDTH, HEIGHT), extent=(
             (- (WIDTH-1)/2, (WIDTH-1)/2,
              - (HEIGHT-1)/2, (HEIGHT-1)/2)

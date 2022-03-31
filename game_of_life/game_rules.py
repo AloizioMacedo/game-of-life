@@ -18,19 +18,31 @@ class Game:
         self.candidates_to_die.update(self.screen.alive_cells)
         return None
 
-    def kill(self) -> None:
+    def game_step(self) -> None:
+        who_dies = self.determine_who_dies()
+        who_is_born = self.determine_who_is_born()
+        for cell in who_dies:
+            self.screen.remove_cell(cell)
+        for cell in who_is_born:
+            self.screen.add_cell(cell)
+        self.candidates_to_be_born, self.candidates_to_die = set(), set()
+        return None
+
+    def determine_who_dies(self) -> List[Cell]:
+        to_die: List[Cell] = []
         for cell in self.candidates_to_die:
             neighbours = self.screen.get_neighbours(cell)
             if len([cell for cell in neighbours if cell.alive]) in [2, 3]:
                 continue
             else:
-                self.screen.remove_cell(cell)
-        return None
+                to_die.append(cell)
+        return to_die
 
-    def reproduce(self) -> None:
+    def determine_who_is_born(self) -> List[Cell]:
+        to_be_born: List[Cell] = []
         for cell in self.candidates_to_be_born:
             neighbours = self.screen.get_neighbours(cell)
             if len([cell2 for cell2 in neighbours if cell2.alive]) == 3:
                 cell.alive = True
-                self.screen.add_cell(cell)
-        return None
+                to_be_born.append(cell)
+        return to_be_born
