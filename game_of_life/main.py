@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from game_rules import Game
 from screen import Screen
 
-WIDTH = 31
-HEIGHT = 31
+WIDTH = 61
+HEIGHT = 61
 
 PERIOD = 0.2
 
