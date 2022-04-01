@@ -53,15 +53,12 @@ class Screen:
             raise ValueError("Not odd.")
         initialized_screen = [[0 for j in range(columns)]
                               for i in range(lines)]
-        for x in range(-(lines-1)//2, (lines-1)//2):
-            for y in range(-(columns-1)//2, (columns-1)//2):
-                cell = self.alive_cells_hashmap.get(
-                    (x, y),
-                    None)
-                if cell is not None:
-                    initialized_screen[
-                        x + (lines-1)//2
-                        ][y + (columns-1)//2] = 1
+        for (x, y) in self.alive_cells_hashmap:
+            if (x in range(-(lines-1)//2, (lines-1)//2) and
+                    y in range(-(columns-1)//2, (columns-1)//2)):
+                shifted_x = x + (lines-1)//2
+                shifted_y = y + (columns-1)//2
+                initialized_screen[shifted_x][shifted_y] = 1
         return initialized_screen
 
     def print_screen(self, lines: int, columns: int) -> None:
