@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from game_rules import Game
 from screen import Screen
 
+BOUNDED_SCREEN = True
 WIDTH = 65
 HEIGHT = 65
 
@@ -19,10 +20,15 @@ def main():
     screen = Screen()
     game = Game(screen)
     fig, ax = plt.subplots()
-    imshow = ax.imshow(screen.get_screen(WIDTH, HEIGHT), extent=(
-        (- (WIDTH-1)/2, (WIDTH-1)/2,
-         - (HEIGHT-1)/2, (HEIGHT-1)/2)
-        ))
+
+    if not BOUNDED_SCREEN:
+        imshow = ax.imshow(screen.get_screen(WIDTH, HEIGHT,
+                                             bounded_screen=False))
+    else:
+        imshow = ax.imshow(screen.get_screen(WIDTH, HEIGHT), extent=(
+            (-(WIDTH-1)/2, (WIDTH-1)/2,
+             -(HEIGHT-1)/2, (HEIGHT-1)/2)
+            ))
     plt.ion()
     plt.show()
     fig.canvas.mpl_connect('close_event',
@@ -34,7 +40,8 @@ def main():
         game.update_candidates()
         game.game_step()
 
-        imshow.set_data(screen.get_screen(WIDTH, HEIGHT))
+        imshow.set_data(screen.get_screen(WIDTH, HEIGHT,
+                                          bounded_screen=BOUNDED_SCREEN))
         fig.canvas.draw()
         plt.pause(0.01)  # type: ignore
 

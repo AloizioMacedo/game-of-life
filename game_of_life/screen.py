@@ -47,17 +47,41 @@ class Screen:
             self.alive_cells.append(cell)
             self.alive_cells_hashmap[(cell.x, cell.y)] = cell
 
-    def get_screen(self, lines: int, columns: int) -> List[List[int]]:
+    def get_screen(self, lines: int, columns: int, *,
+                   bounded_screen: bool = True) -> List[List[int]]:
         """Lines and columns must be odd integers."""
         if lines % 2 == 0 or columns % 2 == 0:
             raise ValueError("Not odd.")
-        initialized_screen = [[0 for j in range(columns)]
-                              for i in range(lines)]
-        for (x, y) in self.alive_cells_hashmap:
-            if (x in range(-(lines-1)//2, (lines-1)//2) and
-                    y in range(-(columns-1)//2, (columns-1)//2)):
-                shifted_x = x + (lines-1)//2
-                shifted_y = y + (columns-1)//2
+
+        if bounded_screen:
+            initialized_screen = [[0 for j in range(columns)]
+                                  for i in range(lines)]
+            for (x, y) in self.alive_cells_hashmap:
+                if (x in range(-(lines-1)//2, (lines-1)//2) and
+                        y in range(-(columns-1)//2, (columns-1)//2)):
+                    shifted_x = x + (lines-1)//2
+                    shifted_y = y + (columns-1)//2
+                    initialized_screen[shifted_x][shifted_y] = 1
+            return initialized_screen
+
+        else:
+            if not self.alive_cells_hashmap:
+                min_x = 0
+                min_y = 0
+                square_side = 20
+            else:
+                max_x, min_x = (max(x for (x, y) in self.alive_cells_hashmap),
+                                min(x for (x, y) in self.alive_cells_hashmap))
+                max_y, min_y = (max(y for (x, y) in self.alive_cells_hashmap),
+                                min(y for (x, y) in self.alive_cells_hashmap))
+                square_side = max(max_y - min_y, max_x - min_x)
+            initialized_screen = [[0 for j in range(min_y-5,
+                                                    min_y+square_side+6)]
+                                  for i in range(min_x-5,
+                                                 min_x+square_side+6)]
+            for (x, y) in self.alive_cells_hashmap:
+                shifted_x = x - (min_x - 5)
+                shifted_y = y - (min_y - 5)
                 initialized_screen[shifted_x][shifted_y] = 1
         return initialized_screen
 
