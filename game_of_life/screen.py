@@ -73,19 +73,9 @@ class Screen:
                 min_y = 0
                 square_side = 20
             else:
-                max_x, min_x = (max(x for (x, y) in self.alive_cells_hashmap),
-                                min(x for (x, y) in self.alive_cells_hashmap))
-                max_y, min_y = (max(y for (x, y) in self.alive_cells_hashmap),
-                                min(y for (x, y) in self.alive_cells_hashmap))
-
-                min_x = min(min_x, self.min_x)
-                self.min_x = min_x
-                min_y = min(min_y, self.min_y)
-                self.min_y = min_y
-
-                square_side = max(max_y - min_y, max_x - min_x)
-                square_side = max(self.square_side, square_side)
-                self.square_side = square_side
+                self.update_dimensions()
+                min_x, min_y, square_side = (self.min_x, self.min_y,
+                                             self.square_side)
 
             initialized_screen = [[0 for j in range(min_y-5,
                                                     min_y+square_side+6)]
@@ -96,6 +86,21 @@ class Screen:
                 shifted_y = y - (min_y - 5)
                 initialized_screen[shifted_x][shifted_y] = 1
         return initialized_screen
+
+    def update_dimensions(self) -> None:
+        max_x, min_x = (max(x for (x, y) in self.alive_cells_hashmap),
+                        min(x for (x, y) in self.alive_cells_hashmap))
+        max_y, min_y = (max(y for (x, y) in self.alive_cells_hashmap),
+                        min(y for (x, y) in self.alive_cells_hashmap))
+
+        min_x = min(min_x, self.min_x)
+        self.min_x = min_x
+        min_y = min(min_y, self.min_y)
+        self.min_y = min_y
+
+        square_side = max(max_y - min_y, max_x - min_x)
+        square_side = max(self.square_side, square_side)
+        self.square_side = square_side
 
     def print_screen(self, lines: int, columns: int) -> None:
         screen = self.get_screen(lines, columns)
