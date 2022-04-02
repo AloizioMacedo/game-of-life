@@ -21,6 +21,9 @@ class Screen:
         else:
             self.alive_cells = alive_cells
 
+        self.square_side = 20
+        self.min_x = 10
+        self.min_y = 10
         self.alive_cells_hashmap: Dict[Tuple[int, int], Cell] = {
             (cell.x, cell.y): cell for cell in self.alive_cells
         }
@@ -74,7 +77,16 @@ class Screen:
                                 min(x for (x, y) in self.alive_cells_hashmap))
                 max_y, min_y = (max(y for (x, y) in self.alive_cells_hashmap),
                                 min(y for (x, y) in self.alive_cells_hashmap))
+
+                min_x = min(min_x, self.min_x)
+                self.min_x = min_x
+                min_y = min(min_y, self.min_y)
+                self.min_y = min_y
+
                 square_side = max(max_y - min_y, max_x - min_x)
+                square_side = max(self.square_side, square_side)
+                self.square_side = square_side
+
             initialized_screen = [[0 for j in range(min_y-5,
                                                     min_y+square_side+6)]
                                   for i in range(min_x-5,
