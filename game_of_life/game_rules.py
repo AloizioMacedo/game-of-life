@@ -12,6 +12,9 @@ class Game:
         self.candidates_to_die: Set[Cell] = set()
 
     def update_candidates(self) -> None:
+        self.candidates_to_be_born.clear()
+        self.candidates_to_die.clear()
+
         for cell in self.plane.alive_cells:
             cells = self.plane.get_neighbours(cell)
             self.candidates_to_be_born.update([cell for cell in cells
@@ -22,12 +25,12 @@ class Game:
     def game_step(self) -> None:
         who_dies = self.determine_who_dies()
         who_is_born = self.determine_who_is_born()
+
         for cell in who_dies:
             self.plane.remove_cell(cell)
         for cell in who_is_born:
             self.plane.add_cell(cell)
-        self.candidates_to_be_born.clear()
-        self.candidates_to_die.clear()
+
         return None
 
     def determine_who_dies(self) -> List[Cell]:
