@@ -9,7 +9,7 @@ Cell = NamedTuple("Cell", [("x", int),
                            ("alive", bool)])
 
 
-class Screen:
+class Plane:
 
     def __init__(self,
                  alive_cells: List[Cell] = []) -> None:

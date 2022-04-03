@@ -1,8 +1,8 @@
 import time
 
 from game_rules import Game
+from plane import Plane
 from plot import prepare_fig_and_imshow, update_display
-from screen import Screen
 
 BOUNDED_SCREEN = True
 WIDTH = 65
@@ -12,9 +12,9 @@ PERIOD = 0.2
 
 
 def main():
-    screen = Screen()
-    game = Game(screen)
-    fig, imshow = prepare_fig_and_imshow(screen, game,
+    plane = Plane()
+    game = Game(plane)
+    fig, imshow = prepare_fig_and_imshow(plane, game,
                                          WIDTH, HEIGHT,
                                          bounded_screen=BOUNDED_SCREEN)
 
@@ -24,7 +24,7 @@ def main():
         game.update_candidates()
         game.game_step()
 
-        update_display(screen, WIDTH, HEIGHT, fig, imshow,
+        update_display(plane, WIDTH, HEIGHT, fig, imshow,
                        bounded_screen=BOUNDED_SCREEN)
 
         end_of_loop = time.time()
