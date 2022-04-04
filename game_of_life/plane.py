@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from itertools import product
 from random import randint
-from typing import Dict, List, NamedTuple, Tuple
+from typing import Dict, List, NamedTuple, Set, Tuple
 
 Cell = NamedTuple("Cell", [("x", int),
                            ("y", int),
@@ -28,16 +28,16 @@ class Plane:
             (cell.x, cell.y): cell for cell in self.alive_cells
         }
 
-    def get_neighbours(self, cell: Cell) -> List[Cell]:
-        neighbour_cells: List[Cell] = []
+    def get_neighbours(self, cell: Cell) -> Set[Cell]:
+        neighbour_cells: Set[Cell] = set()
         for (x, y) in product([-1, 0, 1], repeat=2):
             if (x, y) != (0, 0):
                 if (cell.x + x, cell.y + y) in self.alive_cells_hashmap:
-                    neighbour_cells.append(Cell(cell.x + x,
-                                                cell.y + y, alive=True))
+                    neighbour_cells.add(Cell(cell.x + x,
+                                             cell.y + y, alive=True))
                 else:
-                    neighbour_cells.append(Cell(cell.x + x,
-                                                cell.y + y, alive=False))
+                    neighbour_cells.add(Cell(cell.x + x,
+                                             cell.y + y, alive=False))
         return neighbour_cells
 
     def remove_cell(self, cell: Cell) -> None:
