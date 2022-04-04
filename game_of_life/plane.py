@@ -12,12 +12,12 @@ Cell = NamedTuple("Cell", [("x", int),
 class Plane:
 
     def __init__(self,
-                 alive_cells: List[Cell] = []) -> None:
+                 alive_cells: Set[Cell] = set()) -> None:
         if not alive_cells:
-            self.alive_cells = list(set([
+            self.alive_cells = set([
                 Cell(randint(-7, 7), randint(-7, 7), alive=True)
                 for i in range(0, 80)
-            ]))
+            ])
         else:
             self.alive_cells = alive_cells
 
@@ -41,14 +41,12 @@ class Plane:
         return neighbour_cells
 
     def remove_cell(self, cell: Cell) -> None:
-        if cell in self.alive_cells:
-            self.alive_cells.remove(cell)
-            self.alive_cells_hashmap.pop((cell.x, cell.y))
+        self.alive_cells.remove(cell)
+        self.alive_cells_hashmap.pop((cell.x, cell.y))
 
     def add_cell(self, cell: Cell) -> None:
-        if cell not in self.alive_cells:
-            self.alive_cells.append(cell)
-            self.alive_cells_hashmap[(cell.x, cell.y)] = cell
+        self.alive_cells.add(cell)
+        self.alive_cells_hashmap[(cell.x, cell.y)] = cell
 
     def get_screen(self, lines: int, columns: int, *,
                    bounded_screen: bool = True) -> List[List[int]]:
